@@ -6,112 +6,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    * { box-sizing: border-box; }
-
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px 14px;
-      background: linear-gradient(135deg, #0b1f24, #0f3a40);
-      font-family: Arial, sans-serif;
-      color:#fff;
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    .box{
-      max-width: 520px;
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #0f2d2f, #071a1d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e9f5f4;
+    }
+
+    .card {
       width: 100%;
-      padding: 36px 26px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.08);
+      max-width: 420px;
+      background: rgba(255,255,255,0.04);
       border-radius: 22px;
+      padding: 28px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 38px;
+      font-weight: 800;
       text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,.45);
-      backdrop-filter: blur(10px);
     }
 
-    h1{
-      margin:0 0 10px;
-      font-size: 44px;
-      letter-spacing: .5px;
+    .tagline {
+      text-align: center;
+      opacity: 0.85;
+      margin-bottom: 20px;
     }
 
-    .sub{
-      opacity:.9;
-      margin: 0 0 20px;
-      line-height:1.7;
-    }
-
-    .features{
-      text-align:left;
+    .features {
       margin: 20px 0;
-      font-size:14px;
-      opacity:.95;
-      display:grid;
-      gap:12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .features div{
-      padding:14px;
+    .feature {
+      background: rgba(255,255,255,0.05);
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(0,0,0,0.22);
-    }
-
-    form{ margin-top:18px; }
-
-    input{
-      width:100%;
       padding: 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .feature b {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      outline: none;
       background: rgba(255,255,255,0.08);
-      color:#fff;
-      font-size:16px;
-      outline:none;
+      color: #fff;
+      font-size: 15px;
+      margin-top: 10px;
     }
-    input::placeholder{ color: rgba(255,255,255,0.55); }
 
-    button{
-      margin-top:14px;
-      width:100%;
-      padding: 15px;
-      border:none;
+    input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
       border-radius: 999px;
-      background: linear-gradient(135deg,#1cffb3,#00c7ff);
-      color:#002;
-      font-weight:bold;
-      font-size:16px;
-      cursor:pointer;
+      border: none;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, #20f2b3, #14c9ff);
+      color: #003a3a;
     }
 
-    .foot{
-      margin-top:16px;
-      font-size:12px;
-      opacity:.6;
+    .success {
+      margin-top: 14px;
+      background: rgba(32,242,179,0.15);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      display: none;
+    }
+
+    .footer {
+      margin-top: 18px;
+      font-size: 12px;
+      opacity: 0.6;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="box">
+  <div class="card">
     <h1>SignalDrive</h1>
-
-    <p class="sub">
-      Trading signals & auto trading platform<br/>
+    <div class="tagline">
+      Trading signals & auto trading platform<br />
       Smart • Fast • Automated
-    </p>
-
-    <div class="features">
-      <div><b>Smart Signals</b><br/>Clean entries, clear targets</div>
-      <div><b>Auto Trading</b><br/>Bots that follow rules</div>
-      <div><b>Risk Management</b><br/>SL / TP built-in</div>
     </div>
 
-    <!-- ✅ FORM CONNECTED TO FORMSPREE -->
+    <div class="features">
+      <div class="feature">
+        <b>Smart Signals</b>
+        Clean entries, clear targets
+      </div>
+      <div class="feature">
+        <b>Auto Trading</b>
+        Bots that follow rules
+      </div>
+      <div class="feature">
+        <b>Risk Management</b>
+        SL / TP built-in
+      </div>
+    </div>
+
     <form
       action="https://formspree.io/f/xpqawwew"
       method="POST"
@@ -122,13 +143,32 @@
         placeholder="your@email.com"
         required
       />
+
+      <input
+        type="hidden"
+        name="_redirect"
+        value="https://signaldrive.vercel.app/?success=1"
+      />
+
       <button type="submit">Join Waitlist 🚀</button>
     </form>
 
-    <div class="foot">
+    <div class="success" id="successMsg">
+      ✅ You’re on the waitlist!<br />
+      We’ll email you soon 🚀
+    </div>
+
+    <div class="footer">
       Disclaimer: Trading involves risk. Early access waitlist.
     </div>
   </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("success") === "1") {
+      document.getElementById("successMsg").style.display = "block";
+    }
+  </script>
 
 </body>
 </html>
