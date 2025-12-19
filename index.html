@@ -1,174 +1,182 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SignalDrive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <title>SignalDrive</title>
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    :root{
+      --bg1:#071a1e;
+      --bg2:#0b2a2f;
+      --card:#0b171cdd;
+      --stroke:rgba(255,255,255,.08);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --muted2:rgba(255,255,255,.55);
+      --shadow:0 18px 60px rgba(0,0,0,.55);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px 16px;
+      background:
+        radial-gradient(1200px 900px at 15% 15%, rgba(0, 255, 200, .16), transparent 60%),
+        radial-gradient(900px 700px at 85% 35%, rgba(0, 170, 255, .16), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+    .box{
+      width:min(720px, 100%);
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:26px;
+      padding:34px 22px 26px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    h1{
+      margin:0 0 10px;
+      text-align:center;
+      font-size:54px;
+      letter-spacing:.2px;
+    }
+    .tagline{
+      text-align:center;
+      margin:0;
+      color:var(--muted);
+      font-size:18px;
+      line-height:1.6;
+    }
+    .sub{
+      text-align:center;
+      margin:8px 0 0;
+      color:var(--muted2);
+      font-size:16px;
+    }
+    .divider{
+      height:1px;
+      background:rgba(255,255,255,.08);
+      margin:22px 0;
+    }
+    .features{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .feat{
+      padding:16px 18px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.14);
+    }
+    .feat b{
+      display:block;
+      font-size:18px;
+      margin-bottom:4px;
+    }
+    .feat span{
+      color:var(--muted);
+      font-size:16px;
     }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top left, #0f2d2f, #071a1d);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #e9f5f4;
+    .waitlist{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      align-items:stretch;
+      margin-top:16px;
+    }
+    input[type="email"]{
+      width:100%;
+      padding:18px 16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.08);
+      color:var(--text);
+      font-size:18px;
+      outline:none;
+    }
+    input[type="email"]::placeholder{color:rgba(255,255,255,.45)}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      border:none;
+      cursor:pointer;
+      padding:18px 18px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:20px;
+      color:#062016;
+      background: linear-gradient(90deg, #19ffa6, #11c8ff);
+      box-shadow: 0 10px 26px rgba(0,255,200,.18);
+      transition: transform .08s ease;
+    }
+    .btn:active{ transform: scale(.99); }
+
+    .status{
+      margin-top:10px;
+      text-align:center;
+      font-size:15px;
+      color:var(--muted);
+      min-height:20px;
+    }
+    .foot{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(255,255,255,.45);
+      font-size:13px;
     }
 
-    .card {
-      width: 100%;
-      max-width: 420px;
-      background: rgba(255,255,255,0.04);
-      border-radius: 22px;
-      padding: 28px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    }
-
-    h1 {
-      margin: 0 0 8px;
-      font-size: 38px;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .tagline {
-      text-align: center;
-      opacity: 0.85;
-      margin-bottom: 20px;
-    }
-
-    .features {
-      margin: 20px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .feature {
-      background: rgba(255,255,255,0.05);
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .feature b {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    input[type="email"] {
-      width: 100%;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      outline: none;
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      font-size: 15px;
-      margin-top: 10px;
-    }
-
-    input::placeholder {
-      color: rgba(255,255,255,0.5);
-    }
-
-    button {
-      width: 100%;
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 999px;
-      border: none;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      background: linear-gradient(135deg, #20f2b3, #14c9ff);
-      color: #003a3a;
-    }
-
-    .success {
-      margin-top: 14px;
-      background: rgba(32,242,179,0.15);
-      border-radius: 12px;
-      padding: 12px;
-      text-align: center;
-      display: none;
-    }
-
-    .footer {
-      margin-top: 18px;
-      font-size: 12px;
-      opacity: 0.6;
-      text-align: center;
+    @media (max-width:420px){
+      h1{font-size:44px}
     }
   </style>
 </head>
-
 <body>
-
-  <div class="card">
+  <div class="box">
     <h1>SignalDrive</h1>
-    <div class="tagline">
-      Trading signals & auto trading platform<br />
-      Smart • Fast • Automated
-    </div>
+    <p class="tagline">Trading signals &amp; auto trading platform</p>
+    <p class="sub">Smart • Fast • Automated</p>
+
+    <div class="divider"></div>
 
     <div class="features">
-      <div class="feature">
-        <b>Smart Signals</b>
-        Clean entries, clear targets
-      </div>
-      <div class="feature">
-        <b>Auto Trading</b>
-        Bots that follow rules
-      </div>
-      <div class="feature">
-        <b>Risk Management</b>
-        SL / TP built-in
-      </div>
+      <div class="feat"><b>Smart Signals</b><span>Clean entries, clear targets</span></div>
+      <div class="feat"><b>Auto Trading</b><span>Bots that follow rules</span></div>
+      <div class="feat"><b>Risk Management</b><span>SL / TP built-in</span></div>
     </div>
 
-    <form
-      action="https://formspree.io/f/xpqawwew"
-      method="POST"
-    >
-      <input
-        type="email"
-        name="email"
-        placeholder="your@email.com"
-        required
-      />
+    <div class="divider"></div>
 
-      <input
-        type="hidden"
-        name="_redirect"
-        value="https://signaldrive.vercel.app/?success=1"
-      />
+    <p class="sub" style="margin:0 0 10px;">Join the early access waitlist:</p>
 
-      <button type="submit">Join Waitlist 🚀</button>
+    <!-- ✅ Formspree form -->
+    <form class="waitlist" action="https://formspree.io/f/xpqawwew" method="POST">
+      <input type="email" name="email" placeholder="your@email.com" required />
+      <!-- بعد از ارسال برگرده به خود سایت -->
+      <input type="hidden" name="_next" value="https://signaldrive.vercel.app/?thanks=1" />
+      <input type="hidden" name="_subject" value="SignalDrive Waitlist" />
+      <button class="btn" type="submit">Join Waitlist 🚀</button>
     </form>
 
-    <div class="success" id="successMsg">
-      ✅ You’re on the waitlist!<br />
-      We’ll email you soon 🚀
-    </div>
+    <div class="status" id="status"></div>
 
-    <div class="footer">
-      Disclaimer: Trading involves risk. Early access waitlist.
-    </div>
+    <div class="foot">Disclaimer: Trading involves risk. Early access waitlist.</div>
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("success") === "1") {
-      document.getElementById("successMsg").style.display = "block";
+    // اگر از فرم برگشتی (thanks=1) یه پیام نشون بده
+    const params = new URLSearchParams(location.search);
+    if (params.get("thanks") === "1") {
+      document.getElementById("status").textContent = "✅ Submitted! Check your email (and spam) if needed.";
     }
   </script>
-
 </body>
 </html>
