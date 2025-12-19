@@ -54,7 +54,56 @@
     .err{color:#fca5a5}
   </style>
 </head>
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+  const env = await (await fetch("/env.json")).json();
+
+  const supabase = createClient(
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+
+  const emailInput = document.querySelector('input[placeholder="ایمیل"]');
+  const passwordInput = document.querySelector('input[placeholder="رمز عبور"]');
+
+  const loginBtn = [...document.querySelectorAll("button")]
+    .find(b => b.textContent.includes("ورود"));
+
+  const signupBtn = [...document.querySelectorAll("button")]
+    .find(b => b.textContent.includes("ثبت"));
+
+  const googleBtn = [...document.querySelectorAll("button")]
+    .find(b => b.textContent.includes("گوگل"));
+
+  loginBtn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailInput.value,
+      password: passwordInput.value
+    });
+    if (error) return alert(error.message);
+    window.location.href = "/dashboard.html";
+  });
+
+  signupBtn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.signUp({
+      email: emailInput.value,
+      password: passwordInput.value
+    });
+    if (error) return alert(error.message);
+    alert("ثبت‌نام انجام شد");
+  });
+
+  googleBtn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: location.origin + "/dashboard.html" }
+    });
+  });
+</script>
 <body>
   <div class="card">
     <h1 style="margin:0 0 8px 0;">SignalDrive</h1>
