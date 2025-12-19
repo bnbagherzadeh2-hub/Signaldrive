@@ -3,101 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <title>SignalDrive</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px 14px;
       background: linear-gradient(135deg, #0b1f24, #0f3a40);
       font-family: Arial, sans-serif;
-      color: #fff;
+      color:#fff;
     }
 
-    .box {
-      max-width: 420px;
-      width: 90%;
-      padding: 40px 30px;
+    .box{
+      max-width: 520px;
+      width: 100%;
+      padding: 36px 26px;
       background: rgba(0,0,0,0.35);
-      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,.4);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
     }
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: 40px;
+    h1{
+      margin:0 0 10px;
+      font-size: 44px;
+      letter-spacing: .5px;
     }
 
-    .sub {
-      opacity: .9;
-      margin-bottom: 20px;
-      line-height: 1.6;
+    .sub{
+      opacity:.9;
+      margin: 0 0 20px;
+      line-height:1.7;
     }
 
-    .features {
-      text-align: left;
+    .features{
+      text-align:left;
       margin: 20px 0;
-      font-size: 14px;
-      opacity: .9;
+      font-size:14px;
+      opacity:.95;
+      display:grid;
+      gap:12px;
     }
 
-    .features div {
-      margin-bottom: 10px;
+    .features div{
+      padding:14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.22);
     }
 
-    form {
-      margin-top: 20px;
-    }
+    form{ margin-top:18px; }
 
-    input {
-      width: 100%;
+    input{
+      width:100%;
       padding: 14px;
-      border-radius: 10px;
-      border: none;
-      margin-bottom: 12px;
-      font-size: 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08);
+      color:#fff;
+      font-size:16px;
+      outline:none;
+    }
+    input::placeholder{ color: rgba(255,255,255,0.55); }
+
+    button{
+      margin-top:14px;
+      width:100%;
+      padding: 15px;
+      border:none;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#1cffb3,#00c7ff);
+      color:#002;
+      font-weight:bold;
+      font-size:16px;
+      cursor:pointer;
     }
 
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 30px;
-      background: linear-gradient(135deg, #00f5a0, #00d9f5);
-      color: #000;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .foot {
-      margin-top: 18px;
-      font-size: 11px;
-      opacity: .6;
+    .foot{
+      margin-top:16px;
+      font-size:12px;
+      opacity:.6;
     }
   </style>
 </head>
 
 <body>
+
   <div class="box">
     <h1>SignalDrive</h1>
 
     <p class="sub">
-      Trading signals & auto trading platform<br>
+      Trading signals & auto trading platform<br/>
       Smart • Fast • Automated
     </p>
 
     <div class="features">
-      <div><b>Smart Signals</b><br>Clean entries, clear targets</div>
-      <div><b>Auto Trading</b><br>Bots that follow rules</div>
-      <div><b>Risk Management</b><br>SL/TP built-in</div>
+      <div><b>Smart Signals</b><br/>Clean entries, clear targets</div>
+      <div><b>Auto Trading</b><br/>Bots that follow rules</div>
+      <div><b>Risk Management</b><br/>SL / TP built-in</div>
     </div>
 
-    <!-- ✅ FORM (Formspree) -->
+    <!-- ✅ FORM CONNECTED TO FORMSPREE -->
     <form
       action="https://formspree.io/f/xpqawwew"
       method="POST"
@@ -108,7 +122,6 @@
         placeholder="your@email.com"
         required
       />
-
       <button type="submit">Join Waitlist 🚀</button>
     </form>
 
@@ -116,5 +129,6 @@
       Disclaimer: Trading involves risk. Early access waitlist.
     </div>
   </div>
+
 </body>
 </html>
