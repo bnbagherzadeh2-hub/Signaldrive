@@ -73,13 +73,13 @@
       <div style="height:10px"></div>
 
       <div class="row">
-        <button class="btn primary" id="btnSignup">ثبت‌نام</button>
-        <button class="btn secondary" id="btnLogin">ورود</button>
+        <button class="btn primary" id="btnSignup" type="button">ثبت‌نام</button>
+        <button class="btn secondary" id="btnLogin" type="button">ورود</button>
       </div>
 
       <div style="height:10px"></div>
 
-      <button class="btn secondary" style="width:100%" id="btnGoogle">ورود با گوگل</button>
+      <button class="btn secondary" style="width:100%" id="btnGoogle" type="button">ورود با گوگل</button>
 
       <div class="sep"></div>
 
@@ -90,8 +90,8 @@
       <div class="muted">کاربر وارد شده:</div>
       <div id="userLine" class="mono" style="margin:6px 0 10px 0;"></div>
       <div class="row">
-        <button class="btn danger" id="btnLogout">خروج</button>
-        <button class="btn secondary" id="btnRefresh">رفرش وضعیت</button>
+        <button class="btn danger" id="btnLogout" type="button">خروج</button>
+        <button class="btn secondary" id="btnRefresh" type="button">رفرش وضعیت</button>
       </div>
       <div class="sep"></div>
       <div class="muted">لاگ:</div>
@@ -102,9 +102,9 @@
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-    // ✅ این دو خط رو فقط خودت پر کن:
-    const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL_HERE";
-    const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+    // ✅ تنظیمات پروژه تو (همین‌ها)
+    const SUPABASE_URL = "https://idulsrbmpbyfuhnoezrx.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC";
 
     const connEl = document.getElementById("conn");
     const msgEl = document.getElementById("msg");
@@ -114,7 +114,13 @@
     const userLine = document.getElementById("userLine");
 
     const emailEl = document.getElementById("email");
-    const passEl = document.getElementById("password");
+    const passEl  = document.getElementById("password");
+
+    const btnSignup = document.getElementById("btnSignup");
+    const btnLogin  = document.getElementById("btnLogin");
+    const btnGoogle = document.getElementById("btnGoogle");
+    const btnLogout = document.getElementById("btnLogout");
+    const btnRefresh= document.getElementById("btnRefresh");
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -127,7 +133,6 @@
 
     async function checkConnection(){
       try{
-        // یه تست سبک
         const { data, error } = await supabase.auth.getSession();
         if(error) throw error;
         connEl.textContent = "OK ✅";
@@ -136,7 +141,7 @@
       }catch(e){
         connEl.textContent = "ERROR ❌";
         connEl.className = "pill err";
-        setMsg("اتصال به Supabase مشکل دارد. URL/KEY را چک کن.", false);
+        setMsg("اتصال به Supabase مشکل دارد (URL/KEY).", false);
         console.error(e);
         return null;
       }
@@ -156,60 +161,57 @@
       }
     }
 
-    // Buttons
-    document.getElementById("btnSignup").addEventListener("click", async () => {
+    // ✅ این خط‌ها باعث میشه کلیک‌ها حتماً کار کنن
+    btnSignup.addEventListener("click", async () => {
+      setMsg("در حال ثبت‌نام...");
       const email = emailEl.value.trim();
       const password = passEl.value;
 
       if(!email || !password) return setMsg("ایمیل و رمز را وارد کن.", false);
 
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const { error } = await supabase.auth.signUp({ email, password });
       if(error) return setMsg("ثبت‌نام خطا: " + error.message, false);
 
-      setMsg("ثبت‌نام انجام شد. اگر Confirm ایمیل فعال باشد باید ایمیل را تأیید کنی.");
-      console.log(data);
+      setMsg("ثبت‌نام انجام شد ✅ (اگر Confirm ایمیل روشن باشد باید ایمیل را تایید کنی)");
       await render();
     });
 
-    document.getElementById("btnLogin").addEventListener("click", async () => {
+    btnLogin.addEventListener("click", async () => {
+      setMsg("در حال ورود...");
       const email = emailEl.value.trim();
       const password = passEl.value;
 
       if(!email || !password) return setMsg("ایمیل و رمز را وارد کن.", false);
 
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if(error) return setMsg("ورود خطا: " + error.message, false);
 
       setMsg("ورود موفق ✅");
-      console.log(data);
       await render();
     });
 
-    document.getElementById("btnGoogle").addEventListener("click", async () => {
-      // ⚠️ فقط وقتی کار می‌کند که Provider گوگل در Supabase فعال شده باشد
-      const { data, error } = await supabase.auth.signInWithOAuth({
+    btnGoogle.addEventListener("click", async () => {
+      setMsg("در حال انتقال به گوگل...");
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
-        options: {
-          redirectTo: window.location.href
-        }
+        options: { redirectTo: window.location.href }
       });
-      if(error) return setMsg("گوگل لاگین خطا: " + error.message, false);
-      console.log(data);
+      if(error) return setMsg("گوگل خطا: " + error.message, false);
     });
 
-    document.getElementById("btnLogout").addEventListener("click", async () => {
+    btnLogout.addEventListener("click", async () => {
       const { error } = await supabase.auth.signOut();
       if(error) return log("SignOut error: " + error.message);
       log("Signed out ✅");
+      setMsg("خارج شدی.");
       await render();
     });
 
-    document.getElementById("btnRefresh").addEventListener("click", async () => {
+    btnRefresh.addEventListener("click", async () => {
       log("Refreshing session...");
       await render();
     });
 
-    // Auth state changes
     supabase.auth.onAuthStateChange(async (event, session) => {
       log(`Auth event: ${event}`);
       if(session?.user) log(`User: ${session.user.email || session.user.id}`);
@@ -219,6 +221,7 @@
     // Init
     await checkConnection();
     await render();
+    setMsg("آماده ✅ حالا ایمیل و رمز بزن و ثبت‌نام/ورود کن.");
   </script>
 </body>
 </html>
