@@ -143,10 +143,19 @@
 
     <p class="sub" style="margin:0 0 10px;">Join the early access waitlist:</p>
 
-    <form class="waitlist" id="waitlistForm">
-      <input id="email" type="email" placeholder="your@email.com" required />
-      <button type="submit">Join Waitlist 🚀</button>
-    </form>
+ <form class="waitlist"
+      action="https://formspree.io/f/xpqawwew"
+      method="POST">
+
+  <input
+    type="email"
+    name="email"
+    placeholder="your@email.com"
+    required
+  />
+
+  <button type="submit">Join Waitlist 🚀</button>
+</form>
 
     <div class="status" id="status"></div>
 
