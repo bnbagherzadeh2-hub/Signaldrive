@@ -1,192 +1,294 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <title>SignalDrive</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    body{
+      margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:24px 14px;
+      background:
+        radial-gradient(1200px 700px at 20% 20%, rgba(0,255,200,.14), transparent 60%),
+        radial-gradient(900px 600px at 80% 70%, rgba(0,180,255,.12), transparent 55%),
+        linear-gradient(135deg,#071a1e,#0b2a2f);
+      color:#fff;
     }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(1200px 600px at top, #0e2f2f, #06191c);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 420px;
-      background: rgba(0,0,0,0.35);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    .card{
+      width:100%;max-width:560px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:26px;
+      padding:22px 20px;
+      box-shadow:0 30px 90px rgba(0,0,0,.55);
       backdrop-filter: blur(12px);
     }
 
-    h1 {
-      margin: 0 0 8px;
-      text-align: center;
-      font-size: 36px;
-      letter-spacing: .5px;
+    .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.3px}
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background:linear-gradient(135deg,#2cffc9,#22a2ff);
+      box-shadow:0 0 0 6px rgba(44,255,201,.12);
     }
 
-    .tagline {
-      text-align: center;
-      opacity: .85;
-      margin-bottom: 6px;
+    /* Language selector */
+    .langWrap{display:flex;align-items:center;gap:8px}
+    .langLabel{
+      font-size:12px;opacity:.75;border:1px solid rgba(255,255,255,.12);
+      padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);
+      white-space:nowrap;
+    }
+    .langBtns{display:flex;gap:8px}
+    .langBtns button{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:#fff;padding:8px 10px;border-radius:999px;font-size:13px;cursor:pointer
+    }
+    .langBtns button.active{
+      background:linear-gradient(135deg,#2cffc9,#22a2ff);
+      color:#002;border:none;font-weight:900
     }
 
-    .sub {
-      text-align: center;
-      font-size: 14px;
-      opacity: .6;
-      margin-bottom: 22px;
-    }
+    h1{margin:6px 0 8px;text-align:center;font-size:38px}
+    .sub{text-align:center;opacity:.85;line-height:1.6;margin:0}
+    .trust{margin-top:10px;text-align:center;font-size:13px;opacity:.75}
 
-    .feature {
-      background: rgba(255,255,255,.05);
-      border-radius: 16px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      border: 1px solid rgba(255,255,255,.06);
+    .sectionTitle{margin:18px 0 10px;font-weight:900;font-size:14px;opacity:.95}
+    .grid{display:grid;gap:12px}
+    .box{
+      padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05)
     }
+    .box b{display:block;margin-bottom:5px}
+    .box span{opacity:.85;line-height:1.55;font-size:14px}
 
-    .feature b {
-      display: block;
-      margin-bottom: 4px;
+    .modes{display:grid;gap:10px}
+    .modeRow{
+      display:flex;gap:10px;align-items:flex-start;
+      padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.18)
     }
+    .badge{
+      padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;
+      background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.10)
+    }
+    .modeRow p{margin:0;opacity:.85;line-height:1.55;font-size:14px}
 
-    .waitlist {
-      margin-top: 22px;
+    form{margin-top:14px}
+    input[type="email"]{
+      width:100%;padding:14px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.08);color:#fff;outline:none;font-size:15px
     }
+    input::placeholder{color:rgba(255,255,255,.55)}
+    .btn{
+      width:100%;margin-top:12px;padding:14px;border:none;border-radius:999px;
+      cursor:pointer;font-weight:900;font-size:15px;
+      background:linear-gradient(90deg,#2cffc9,#22a2ff);
+      color:#002;box-shadow:0 10px 26px rgba(0,255,200,.18)
+    }
+    .status{margin-top:10px;text-align:center;font-size:13px;min-height:18px}
+    .foot{margin-top:14px;text-align:center;font-size:12px;opacity:.55;line-height:1.6}
 
-    input[type="email"] {
-      width: 100%;
-      padding: 16px;
-      border-radius: 14px;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      margin-bottom: 14px;
-      background: rgba(255,255,255,.08);
-      color: #fff;
-    }
-
-    input::placeholder {
-      color: rgba(255,255,255,.5);
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      border-radius: 999px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      background: linear-gradient(90deg,#2cffc9,#22a2ff);
-      color: #002;
-      transition: transform .15s ease, box-shadow .15s ease;
-      box-shadow: 0 10px 30px rgba(0,255,200,.35);
-    }
-
-    button:active {
-      transform: scale(.97);
-      box-shadow: 0 6px 16px rgba(0,255,200,.25);
-    }
-
-    .status {
-      text-align: center;
-      margin-top: 14px;
-      font-size: 14px;
-    }
-
-    .foot {
-      text-align: center;
-      font-size: 12px;
-      opacity: .45;
-      margin-top: 18px;
-    }
+    /* RTL adjustments */
+    html[dir="rtl"] .top{flex-direction:row-reverse}
+    html[dir="rtl"] .modeRow{flex-direction:row-reverse}
   </style>
 </head>
 
 <body>
   <div class="card">
-    <h1>SignalDrive</h1>
-    <div class="tagline">Trading signals & auto trading platform</div>
-    <div class="sub">Smart • Fast • Automated</div>
+    <div class="top">
+      <div class="logo"><span class="dot"></span> SignalDrive</div>
 
-    <div class="feature">
-      <b>Smart Signals</b>
-      Clean entries, clear targets
+      <div class="langWrap">
+        <div class="langLabel" data-i18n="langLabel">Language</div>
+        <div class="langBtns">
+          <button id="btnEN" class="active" type="button">EN</button>
+          <button id="btnFA" type="button">FA</button>
+        </div>
+      </div>
     </div>
 
-    <div class="feature">
-      <b>Auto Trading</b>
-      Bots that follow rules
+    <h1 data-i18n="heroTitle">Automated trading, your way.</h1>
+    <p class="sub" data-i18n="heroSub">
+      SignalDrive is an automated trading platform that lets you trade using bots or copy experienced traders, with full control over risk and strategy.
+    </p>
+    <p class="trust" data-i18n="trustLine">
+      Your funds stay in your own account — you can start, pause, or stop anytime.
+    </p>
+
+    <div class="sectionTitle" data-i18n="howTitle">How it works</div>
+    <div class="grid">
+      <div class="box">
+        <b data-i18n="how1t">1) Choose a mode</b>
+        <span data-i18n="how1d">Pick Safe, Smart, or Boost based on your risk preference.</span>
+      </div>
+      <div class="box">
+        <b data-i18n="how2t">2) Choose how to trade</b>
+        <span data-i18n="how2d">
+          Trade with bots, or select a trader you trust. The system automatically mirrors every trade they make.
+        </span>
+      </div>
+      <div class="box">
+        <b data-i18n="how3t">3) Fully automated execution</b>
+        <span data-i18n="how3d">
+          Once connected, trades are executed automatically — no manual actions required.
+        </span>
+      </div>
     </div>
 
-    <div class="feature">
-      <b>Risk Management</b>
-      SL / TP built-in
+    <div class="sectionTitle" data-i18n="modesTitle">Strategy modes</div>
+    <div class="modes">
+      <div class="modeRow">
+        <div class="badge" data-i18n="safeName">Safe</div>
+        <p data-i18n="safeDesc">Lower risk and conservative execution, focused on capital protection.</p>
+      </div>
+      <div class="modeRow">
+        <div class="badge" data-i18n="smartName">Smart</div>
+        <p data-i18n="smartDesc">Balanced execution between risk and opportunity — suitable for most users.</p>
+      </div>
+      <div class="modeRow">
+        <div class="badge" data-i18n="boostName">Boost</div>
+        <p data-i18n="boostDesc">More aggressive execution with higher potential and higher volatility.</p>
+      </div>
     </div>
 
-    <form class="waitlist" id="waitlistForm">
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="your@email.com"
-        required
-      />
-      <button type="submit">Join Waitlist 🚀</button>
+    <div class="sectionTitle" data-i18n="waitTitle">Join early access</div>
+
+    <form id="waitlistForm">
+      <input id="email" type="email" name="email" data-i18n-ph="emailPh" placeholder="your@email.com" required />
+      <button class="btn" type="submit" data-i18n="cta">Join Early Access 🚀</button>
     </form>
 
     <div class="status" id="status"></div>
 
-    <div class="foot">
-      Disclaimer: Trading involves risk. Early access waitlist.
+    <div class="foot" data-i18n="disclaimer">
+      Disclaimer: Trading involves risk. Automation does not remove risk. SignalDrive never has access to your funds.
     </div>
   </div>
 
   <script>
-    const form = document.getElementById("waitlistForm");
-    const emailInput = document.getElementById("email");
-    const statusEl = document.getElementById("status");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const email = emailInput.value.trim();
-      if (!email) return;
-
-      statusEl.textContent = "⏳ Sending...";
-
-      try {
-        const res = await fetch("https://formspree.io/f/xpqawwew", {
-          method: "POST",
-          headers: { "Accept": "application/json" },
-          body: new FormData(form)
-        });
-
-        if (res.ok) {
-          statusEl.textContent = "✅ Submitted! You're on the waitlist.";
-          emailInput.value = "";
-        } else {
-          statusEl.textContent = "❌ Something went wrong. Try again.";
-        }
-      } catch (err) {
-        statusEl.textContent = "❌ Network error. Try again.";
+    const I18N = {
+      en:{
+        dir:"ltr",
+        langLabel:"Language",
+        heroTitle:"Automated trading, your way.",
+        heroSub:"SignalDrive is an automated trading platform that lets you trade using bots or copy experienced traders, with full control over risk and strategy.",
+        trustLine:"Your funds stay in your own account — you can start, pause, or stop anytime.",
+        howTitle:"How it works",
+        how1t:"1) Choose a mode",
+        how1d:"Pick Safe, Smart, or Boost based on your risk preference.",
+        how2t:"2) Choose how to trade",
+        how2d:"Trade with bots, or select a trader you trust. The system automatically mirrors every trade they make.",
+        how3t:"3) Fully automated execution",
+        how3d:"Once connected, trades are executed automatically — no manual actions required.",
+        modesTitle:"Strategy modes",
+        safeName:"Safe",
+        safeDesc:"Lower risk and conservative execution, focused on capital protection.",
+        smartName:"Smart",
+        smartDesc:"Balanced execution between risk and opportunity — suitable for most users.",
+        boostName:"Boost",
+        boostDesc:"More aggressive execution with higher potential and higher volatility.",
+        waitTitle:"Join early access",
+        emailPh:"your@email.com",
+        cta:"Join Early Access 🚀",
+        disclaimer:"Disclaimer: Trading involves risk. Automation does not remove risk. SignalDrive never has access to your funds.",
+        sending:"⏳ Sending...",
+        success:"✅ Submitted! You're on the waitlist.",
+        fail:"❌ Something went wrong. Try again.",
+        netfail:"❌ Network error. Try again."
+      },
+      fa:{
+        dir:"rtl",
+        langLabel:"زبان",
+        heroTitle:"ترید خودکار، دقیقاً به سبک خودت.",
+        heroSub:"SignalDrive یک پلتفرم ترید خودکار است که به شما اجازه می‌دهد با ربات ترید کنید یا معاملات یک تریدر باتجربه را به‌صورت کامل کپی کنید — با کنترل ساختاریافته روی استراتژی.",
+        trustLine:"سرمایه همیشه داخل حساب خودت می‌ماند — هر زمان بخواهی می‌توانی شروع یا توقف کنی.",
+        howTitle:"چطور کار می‌کند؟",
+        how1t:"۱) انتخاب حالت",
+        how1d:"بر اساس ریسک‌پذیری خودت یکی از حالت‌های Safe، Smart یا Boost را انتخاب کن.",
+        how2t:"۲) انتخاب روش ترید",
+        how2d:"یا با ربات ترید کن، یا یک تریدر مورد اعتماد را انتخاب کن. ربات تمام معاملات او را دقیقاً اجرا می‌کند.",
+        how3t:"۳) اجرای کاملاً خودکار",
+        how3d:"بعد از اتصال، تمام معاملات به‌صورت خودکار انجام می‌شود — بدون دخالت دستی.",
+        modesTitle:"حالت‌های استراتژی",
+        safeName:"Safe",
+        safeDesc:"ریسک کمتر و اجرای محافظه‌کارانه با تمرکز روی حفظ سرمایه.",
+        smartName:"Smart",
+        smartDesc:"تعادل بین ریسک و فرصت — مناسب اکثر کاربران.",
+        boostName:"Boost",
+        boostDesc:"اجرای تهاجمی‌تر با پتانسیل بالاتر و نوسان بیشتر.",
+        waitTitle:"دسترسی اولیه",
+        emailPh:"ایمیل شما",
+        cta:"عضویت در دسترسی اولیه 🚀",
+        disclaimer:"هشدار: ترید ریسک دارد. خودکار بودن ریسک را حذف نمی‌کند. SignalDrive هیچ دسترسی‌ای به پول شما ندارد.",
+        sending:"⏳ در حال ارسال...",
+        success:"✅ ثبت شد! شما در لیست دسترسی اولیه هستید.",
+        fail:"❌ مشکلی پیش آمد. دوباره تلاش کنید.",
+        netfail:"❌ خطای اینترنت. دوباره تلاش کنید."
       }
+    };
+
+    const btnEN=document.getElementById("btnEN");
+    const btnFA=document.getElementById("btnFA");
+    const statusEl=document.getElementById("status");
+    const form=document.getElementById("waitlistForm");
+    const emailInput=document.getElementById("email");
+
+    function setLang(lang){
+      const t=I18N[lang] || I18N.en;
+
+      document.documentElement.lang=lang;
+      document.documentElement.dir=t.dir;
+
+      btnEN.classList.toggle("active",lang==="en");
+      btnFA.classList.toggle("active",lang==="fa");
+
+      document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const k=el.getAttribute("data-i18n");
+        if(t[k]) el.textContent=t[k];
+      });
+
+      document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+        const k=el.getAttribute("data-i18n-ph");
+        if(t[k]) el.setAttribute("placeholder",t[k]);
+      });
+
+      localStorage.setItem("lang",lang);
+      statusEl.textContent="";
+    }
+
+    // Default language = English, unless user already chose before
+    const saved = localStorage.getItem("lang");
+    setLang(saved || "en");
+
+    btnEN.onclick=()=>setLang("en");
+    btnFA.onclick=()=>setLang("fa");
+
+    form.addEventListener("submit",async e=>{
+      e.preventDefault();
+      const lang=localStorage.getItem("lang")||"en";
+      const t=I18N[lang]||I18N.en;
+
+      const email=emailInput.value.trim();
+      if(!email) return;
+
+      statusEl.textContent=t.sending;
+      try{
+        const res=await fetch("https://formspree.io/f/xpqawwew",{
+          method:"POST",
+          headers:{Accept:"application/json"},
+          body:new FormData(form)
+        });
+        if(res.ok){
+          statusEl.textContent=t.success;
+          emailInput.value="";
+        }else statusEl.textContent=t.fail;
+      }catch{ statusEl.textContent=t.netfail; }
     });
   </script>
 </body>
