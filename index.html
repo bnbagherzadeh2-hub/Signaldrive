@@ -5,6 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SignalDrive</title>
   <style>
+    <!-- Supabase Login -->
+<div style="max-width:400px;margin:50px auto;padding:20px;border:1px solid #ccc;border-radius:10px;">
+  <h2>Login / Sign Up</h2>
+  <input id="email" type="email" placeholder="Email" style="width:100%;padding:10px;margin-bottom:10px;" />
+  <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin-bottom:10px;" />
+  <button onclick="login()" style="width:100%;padding:10px;">Login</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const supabaseUrl = https://idulsrbmpbyfuhnoezrx.supabase.co;
+  const supabaseKey = sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC;
+
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      alert("Login successful 🚀");
+    }
+  }
+</script>
     body{
       margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
