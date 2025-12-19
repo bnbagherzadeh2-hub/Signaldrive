@@ -2,306 +2,105 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
+  <title>SignalDrive | ورود</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SignalDrive</title>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
-    <!-- Supabase Login -->
-<div style="max-width:400px;margin:50px auto;padding:20px;border:1px solid #ccc;border-radius:10px;">
-  <h2>Login / Sign Up</h2>
-  <input id="email" type="email" placeholder="Email" style="width:100%;padding:10px;margin-bottom:10px;" />
-  <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin-bottom:10px;" />
-  <button onclick="login()" style="width:100%;padding:10px;">Login</button>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const supabaseUrl = https://idulsrbmpbyfuhnoezrx.supabase.co;
-  const supabaseKey = sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC;
-
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-  async function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      alert(error.message);
-    } else {
-      alert("Login successful 🚀");
+    body {
+      font-family: sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-  }
-</script>
-    body{
-      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      background: radial-gradient(1200px 700px at 20% 20%, #1d4ed8 0%, transparent 55%),
-                  radial-gradient(900px 600px at 80% 70%, #22c55e 0%, transparent 55%),
-                  linear-gradient(135deg,#071a1e,#0b2a2f);
-      color:#fff;
-      padding:24px 14px;
+    .box {
+      background: #020617;
+      padding: 30px;
+      width: 320px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #000;
     }
-    .card{
-      width:100%; max-width:560px;
-      background: rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:26px;
-      padding:22px;
-      backdrop-filter: blur(10px);
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
     }
-    .row{display:flex; gap:10px; flex-wrap:wrap;}
-    input{
-      width:100%;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06);
-      color:#fff;
-      outline:none;
-      font-size:15px;
+    input {
+      background: #020617;
+      border: 1px solid #334155;
+      color: white;
     }
-    input::placeholder{color:rgba(255,255,255,.6)}
-    button{
-      padding:12px 14px;
-      border-radius:14px;
-      border:0;
-      cursor:pointer;
-      font-weight:700;
-      font-size:15px;
+    button {
+      background: #22c55e;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
     }
-    .btn{flex:1; min-width:160px;}
-    .primary{background:#22c55e; color:#082312;}
-    .secondary{background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.16)}
-    .danger{background:#ef4444; color:#fff;}
-    .muted{opacity:.85; font-size:13px; line-height:1.6}
-    .sep{height:1px; background:rgba(255,255,255,.12); margin:14px 0;}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
-    .pill{display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.14); font-size:12px;}
-    .ok{color:#86efac}
-    .err{color:#fca5a5}
+    button:hover {
+      opacity: 0.9;
+    }
+    .error {
+      color: #f87171;
+      margin-top: 10px;
+      font-size: 13px;
+    }
   </style>
 </head>
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-  const env = await (await fetch("/env.json")).json();
-
-  const supabase = createClient(
-    env.NEXT_PUBLIC_SUPABASE_URL,
-    env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
-
-  const emailInput = document.querySelector('input[placeholder="ایمیل"]');
-  const passwordInput = document.querySelector('input[placeholder="رمز عبور"]');
-
-  const loginBtn = [...document.querySelectorAll("button")]
-    .find(b => b.textContent.includes("ورود"));
-
-  const signupBtn = [...document.querySelectorAll("button")]
-    .find(b => b.textContent.includes("ثبت"));
-
-  const googleBtn = [...document.querySelectorAll("button")]
-    .find(b => b.textContent.includes("گوگل"));
-
-  loginBtn?.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const { error } = await supabase.auth.signInWithPassword({
-      email: emailInput.value,
-      password: passwordInput.value
-    });
-    if (error) return alert(error.message);
-    window.location.href = "/dashboard.html";
-  });
-
-  signupBtn?.addEventListener("click", async (e) => {
-    e.preventDefault();
-    const { error } = await supabase.auth.signUp({
-      email: emailInput.value,
-      password: passwordInput.value
-    });
-    if (error) return alert(error.message);
-    alert("ثبت‌نام انجام شد");
-  });
-
-  googleBtn?.addEventListener("click", async (e) => {
-    e.preventDefault();
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: location.origin + "/dashboard.html" }
-    });
-  });
-</script>
 <body>
-  <div class="card">
-    <h1 style="margin:0 0 8px 0;">SignalDrive</h1>
-    <div class="muted">
-      وضعیت اتصال: <span id="conn" class="pill">در حال تست...</span>
-    </div>
 
-    <div class="sep"></div>
+  <div class="box">
+    <h2>ورود / ثبت‌نام</h2>
 
-    <div id="authBox">
-      <div class="row">
-        <input id="email" type="email" placeholder="ایمیل" autocomplete="email" />
-        <input id="password" type="password" placeholder="رمز عبور" autocomplete="current-password" />
-      </div>
+    <input id="email" type="email" placeholder="ایمیل">
+    <input id="password" type="password" placeholder="پسورد">
 
-      <div style="height:10px"></div>
+    <button onclick="login()">ورود / ثبت‌نام</button>
 
-      <div class="row">
-        <button class="btn primary" id="btnSignup" type="button">ثبت‌نام</button>
-        <button class="btn secondary" id="btnLogin" type="button">ورود</button>
-      </div>
-
-      <div style="height:10px"></div>
-
-      <button class="btn secondary" style="width:100%" id="btnGoogle" type="button">ورود با گوگل</button>
-
-      <div class="sep"></div>
-
-      <div id="msg" class="muted"></div>
-    </div>
-
-    <div id="profileBox" style="display:none">
-      <div class="muted">کاربر وارد شده:</div>
-      <div id="userLine" class="mono" style="margin:6px 0 10px 0;"></div>
-      <div class="row">
-        <button class="btn danger" id="btnLogout" type="button">خروج</button>
-        <button class="btn secondary" id="btnRefresh" type="button">رفرش وضعیت</button>
-      </div>
-      <div class="sep"></div>
-      <div class="muted">لاگ:</div>
-      <div id="log" class="mono muted" style="white-space:pre-wrap"></div>
-    </div>
+    <div id="error" class="error"></div>
   </div>
 
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+  <script>
+    const supabaseUrl = "https://YOUR_PROJECT_ID.supabase.co";
+    const supabaseKey = "YOUR_PUBLIC_ANON_KEY";
 
-    // ✅ تنظیمات پروژه تو (همین‌ها)
-    const SUPABASE_URL = "https://idulsrbmpbyfuhnoezrx.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC";
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const connEl = document.getElementById("conn");
-    const msgEl = document.getElementById("msg");
-    const logEl = document.getElementById("log");
-    const authBox = document.getElementById("authBox");
-    const profileBox = document.getElementById("profileBox");
-    const userLine = document.getElementById("userLine");
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorDiv = document.getElementById("error");
+      errorDiv.innerText = "";
 
-    const emailEl = document.getElementById("email");
-    const passEl  = document.getElementById("password");
-
-    const btnSignup = document.getElementById("btnSignup");
-    const btnLogin  = document.getElementById("btnLogin");
-    const btnGoogle = document.getElementById("btnGoogle");
-    const btnLogout = document.getElementById("btnLogout");
-    const btnRefresh= document.getElementById("btnRefresh");
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    function setMsg(text, ok=true){
-      msgEl.innerHTML = `<span class="${ok ? 'ok' : 'err'}">${text}</span>`;
-    }
-    function log(text){
-      logEl.textContent += (logEl.textContent ? "\n" : "") + text;
-    }
-
-    async function checkConnection(){
-      try{
-        const { data, error } = await supabase.auth.getSession();
-        if(error) throw error;
-        connEl.textContent = "OK ✅";
-        connEl.className = "pill ok";
-        return data?.session || null;
-      }catch(e){
-        connEl.textContent = "ERROR ❌";
-        connEl.className = "pill err";
-        setMsg("اتصال به Supabase مشکل دارد (URL/KEY).", false);
-        console.error(e);
-        return null;
-      }
-    }
-
-    async function render(){
-      const { data } = await supabase.auth.getSession();
-      const session = data?.session;
-
-      if(session?.user){
-        authBox.style.display = "none";
-        profileBox.style.display = "block";
-        userLine.textContent = session.user.email || session.user.id;
-      }else{
-        profileBox.style.display = "none";
-        authBox.style.display = "block";
-      }
-    }
-
-    // ✅ این خط‌ها باعث میشه کلیک‌ها حتماً کار کنن
-    btnSignup.addEventListener("click", async () => {
-      setMsg("در حال ثبت‌نام...");
-      const email = emailEl.value.trim();
-      const password = passEl.value;
-
-      if(!email || !password) return setMsg("ایمیل و رمز را وارد کن.", false);
-
-      const { error } = await supabase.auth.signUp({ email, password });
-      if(error) return setMsg("ثبت‌نام خطا: " + error.message, false);
-
-      setMsg("ثبت‌نام انجام شد ✅ (اگر Confirm ایمیل روشن باشد باید ایمیل را تایید کنی)");
-      await render();
-    });
-
-    btnLogin.addEventListener("click", async () => {
-      setMsg("در حال ورود...");
-      const email = emailEl.value.trim();
-      const password = passEl.value;
-
-      if(!email || !password) return setMsg("ایمیل و رمز را وارد کن.", false);
-
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if(error) return setMsg("ورود خطا: " + error.message, false);
-
-      setMsg("ورود موفق ✅");
-      await render();
-    });
-
-    btnGoogle.addEventListener("click", async () => {
-      setMsg("در حال انتقال به گوگل...");
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: { redirectTo: window.location.href }
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
-      if(error) return setMsg("گوگل خطا: " + error.message, false);
-    });
 
-    btnLogout.addEventListener("click", async () => {
-      const { error } = await supabase.auth.signOut();
-      if(error) return log("SignOut error: " + error.message);
-      log("Signed out ✅");
-      setMsg("خارج شدی.");
-      await render();
-    });
+      if (error) {
+        // اگر کاربر وجود نداشت → ثبت‌نام کن
+        const signup = await supabase.auth.signUp({
+          email,
+          password,
+        });
 
-    btnRefresh.addEventListener("click", async () => {
-      log("Refreshing session...");
-      await render();
-    });
-
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      log(`Auth event: ${event}`);
-      if(session?.user) log(`User: ${session.user.email || session.user.id}`);
-      await render();
-    });
-
-    // Init
-    await checkConnection();
-    await render();
-    setMsg("آماده ✅ حالا ایمیل و رمز بزن و ثبت‌نام/ورود کن.");
+        if (signup.error) {
+          errorDiv.innerText = signup.error.message;
+        } else {
+          window.location.href = "dashboard.html";
+        }
+      } else {
+        window.location.href = "dashboard.html";
+      }
+    }
   </script>
+
 </body>
 </html>
