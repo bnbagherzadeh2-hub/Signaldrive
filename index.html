@@ -1,204 +1,224 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>SignalDrive</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-body{
-margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;
-padding:24px 14px;
-background:
-radial-gradient(1200px 700px at 20% 20%, rgba(0,255,200,.14), transparent 60%),
-radial-gradient(900px 600px at 80% 70%, rgba(0,180,255,.12), transparent 55%),
-linear-gradient(135deg,#071a1e,#0b2a2f);
-color:#fff;
-}
-.card{
-width:100%;max-width:560px;
-background:rgba(0,0,0,.35);
-border:1px solid rgba(255,255,255,.08);
-border-radius:26px;
-padding:22px 20px;
-box-shadow:0 30px 90px rgba(0,0,0,.55);
-backdrop-filter:blur(12px);
-}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:900}
-.dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#2cffc9,#22a2ff)}
-.langWrap{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.langWrap button{
-border:1px solid rgba(255,255,255,.14);
-background:rgba(255,255,255,.06);
-color:#fff;padding:6px 9px;border-radius:999px;font-size:12px;cursor:pointer
-}
-.langWrap button.active{
-background:linear-gradient(135deg,#2cffc9,#22a2ff);
-color:#002;border:none;font-weight:900
-}
-h1{text-align:center;font-size:38px;margin:10px 0}
-.sub{text-align:center;opacity:.85;line-height:1.6}
-.trust{text-align:center;font-size:13px;opacity:.75;margin-top:8px}
-.sectionTitle{margin:18px 0 10px;font-weight:900;font-size:14px}
-.box{padding:14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);margin-bottom:10px}
-.box b{display:block;margin-bottom:4px}
-.box span{font-size:14px;opacity:.85}
-.mode{padding:12px;border-radius:16px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.08);margin-bottom:8px}
-.badge{font-size:12px;font-weight:900;background:rgba(255,255,255,.1);padding:5px 10px;border-radius:999px;display:inline-block;margin-bottom:4px}
-form{margin-top:14px}
-input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.08);color:#fff}
-button.cta{width:100%;margin-top:10px;padding:14px;border:none;border-radius:999px;font-weight:900;cursor:pointer;background:linear-gradient(90deg,#2cffc9,#22a2ff);color:#002}
-.status{text-align:center;font-size:13px;margin-top:8px}
-.foot{text-align:center;font-size:12px;opacity:.55;margin-top:12px}
-html[dir="rtl"] .top{flex-direction:row-reverse}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SignalDrive</title>
+  <style>
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 700px at 20% 20%, #1d4ed8 0%, transparent 55%),
+                  radial-gradient(900px 600px at 80% 70%, #22c55e 0%, transparent 55%),
+                  linear-gradient(135deg,#071a1e,#0b2a2f);
+      color:#fff;
+      padding:24px 14px;
+    }
+    .card{
+      width:100%; max-width:560px;
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:26px;
+      padding:22px;
+      backdrop-filter: blur(10px);
+    }
+    .row{display:flex; gap:10px; flex-wrap:wrap;}
+    input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      outline:none;
+      font-size:15px;
+    }
+    input::placeholder{color:rgba(255,255,255,.6)}
+    button{
+      padding:12px 14px;
+      border-radius:14px;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+      font-size:15px;
+    }
+    .btn{flex:1; min-width:160px;}
+    .primary{background:#22c55e; color:#082312;}
+    .secondary{background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.16)}
+    .danger{background:#ef4444; color:#fff;}
+    .muted{opacity:.85; font-size:13px; line-height:1.6}
+    .sep{height:1px; background:rgba(255,255,255,.12); margin:14px 0;}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.14); font-size:12px;}
+    .ok{color:#86efac}
+    .err{color:#fca5a5}
+  </style>
 </head>
 
 <body>
-<div class="card">
-  <div class="top">
-    <div class="logo"><span class="dot"></span>SignalDrive</div>
-    <div class="langWrap">
-      <button onclick="setLang('en')" class="active" id="en">EN</button>
-      <button onclick="setLang('fa')" id="fa">FA</button>
-      <button onclick="setLang('tr')" id="tr">TR</button>
-      <button onclick="setLang('ar')" id="ar">AR</button>
-      <button onclick="setLang('es')" id="es">ES</button>
-      <button onclick="setLang('de')" id="de">DE</button>
+  <div class="card">
+    <h1 style="margin:0 0 8px 0;">SignalDrive</h1>
+    <div class="muted">
+      وضعیت اتصال: <span id="conn" class="pill">در حال تست...</span>
+    </div>
+
+    <div class="sep"></div>
+
+    <div id="authBox">
+      <div class="row">
+        <input id="email" type="email" placeholder="ایمیل" autocomplete="email" />
+        <input id="password" type="password" placeholder="رمز عبور" autocomplete="current-password" />
+      </div>
+
+      <div style="height:10px"></div>
+
+      <div class="row">
+        <button class="btn primary" id="btnSignup">ثبت‌نام</button>
+        <button class="btn secondary" id="btnLogin">ورود</button>
+      </div>
+
+      <div style="height:10px"></div>
+
+      <button class="btn secondary" style="width:100%" id="btnGoogle">ورود با گوگل</button>
+
+      <div class="sep"></div>
+
+      <div id="msg" class="muted"></div>
+    </div>
+
+    <div id="profileBox" style="display:none">
+      <div class="muted">کاربر وارد شده:</div>
+      <div id="userLine" class="mono" style="margin:6px 0 10px 0;"></div>
+      <div class="row">
+        <button class="btn danger" id="btnLogout">خروج</button>
+        <button class="btn secondary" id="btnRefresh">رفرش وضعیت</button>
+      </div>
+      <div class="sep"></div>
+      <div class="muted">لاگ:</div>
+      <div id="log" class="mono muted" style="white-space:pre-wrap"></div>
     </div>
   </div>
 
-  <h1 id="title"></h1>
-  <p class="sub" id="sub"></p>
-  <p class="trust" id="trust"></p>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-  <div class="sectionTitle" id="how"></div>
-  <div class="box"><b id="h1t"></b><span id="h1d"></span></div>
-  <div class="box"><b id="h2t"></b><span id="h2d"></span></div>
-  <div class="box"><b id="h3t"></b><span id="h3d"></span></div>
+    // ✅ این دو خط رو فقط خودت پر کن:
+    const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL_HERE";
+    const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
 
-  <div class="sectionTitle" id="modes"></div>
-  <div class="mode"><div class="badge">Safe</div><div id="safe"></div></div>
-  <div class="mode"><div class="badge">Smart</div><div id="smart"></div></div>
-  <div class="mode"><div class="badge">Boost</div><div id="boost"></div></div>
+    const connEl = document.getElementById("conn");
+    const msgEl = document.getElementById("msg");
+    const logEl = document.getElementById("log");
+    const authBox = document.getElementById("authBox");
+    const profileBox = document.getElementById("profileBox");
+    const userLine = document.getElementById("userLine");
 
-  <div class="sectionTitle" id="wait"></div>
-  <form id="form">
-    <input type="email" id="email" placeholder="email" required>
-    <button class="cta" id="cta"></button>
-  </form>
-  <div class="status" id="status"></div>
+    const emailEl = document.getElementById("email");
+    const passEl = document.getElementById("password");
 
-  <div class="foot" id="disc"></div>
-</div>
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-<script>
-const T={
-en:{dir:"ltr",title:"Automated trading, your way.",
-sub:"Trade with bots or copy trusted traders with full automation.",
-trust:"Your funds stay in your own account.",
-how:"How it works",
-h1t:"Choose a mode",h1d:"Safe, Smart or Boost.",
-h2t:"Choose how to trade",h2d:"Bot trading or full copy of a trader.",
-h3t:"Fully automated",h3d:"No manual actions required.",
-modes:"Strategy modes",
-safe:"Lower risk, capital protection.",
-smart:"Balanced risk and opportunity.",
-boost:"Higher risk, higher potential.",
-wait:"Join early access",
-cta:"Join Early Access 🚀",
-disc:"Trading involves risk. No guaranteed profits."
-},
-fa:{dir:"rtl",title:"ترید خودکار، به سبک خودت",
-sub:"ترید با ربات یا کپی کامل تریدر مورد اعتماد",
-trust:"سرمایه همیشه داخل حساب خودت می‌ماند",
-how:"چطور کار می‌کند؟",
-h1t:"انتخاب حالت",h1d:"Safe، Smart یا Boost",
-h2t:"انتخاب روش",h2d:"ربات یا کپی کامل تریدر",
-h3t:"کاملاً خودکار",h3d:"بدون دخالت دستی",
-modes:"حالت‌های استراتژی",
-safe:"ریسک کم و محافظه‌کارانه",
-smart:"متعادل و منطقی",
-boost:"ریسک بیشتر با پتانسیل بالاتر",
-wait:"دسترسی اولیه",
-cta:"عضویت 🚀",
-disc:"ترید ریسک دارد"
-},
-tr:{dir:"ltr",title:"Otomatik trading, senin tarzın",
-sub:"Botlarla işlem yap veya güvenilir traderları kopyala",
-trust:"Para her zaman senin hesabında",
-how:"Nasıl çalışır",
-h1t:"Mod seç",h1d:"Safe, Smart veya Boost",
-h2t:"İşlem türü",h2d:"Bot veya trader kopyalama",
-h3t:"Tam otomatik",h3d:"Manuel işlem yok",
-modes:"Strateji modları",
-safe:"Düşük risk",
-smart:"Dengeli",
-boost:"Yüksek risk",
-wait:"Erken erişim",
-cta:"Katıl 🚀",
-disc:"Trading risk içerir"
-},
-ar:{dir:"rtl",title:"تداول آلي بطريقتك",
-sub:"تداول بالروبوت أو انسخ متداولين موثوقين",
-trust:"أموالك تبقى في حسابك",
-how:"كيف يعمل",
-h1t:"اختر الوضع",h1d:"Safe أو Smart أو Boost",
-h2t:"اختر الطريقة",h2d:"روبوت أو نسخ كامل",
-h3t:"تنفيذ تلقائي",h3d:"بدون تدخل يدوي",
-modes:"أنماط الاستراتيجية",
-safe:"مخاطر منخفضة",
-smart:"متوازن",
-boost:"مخاطر أعلى",
-wait:"الوصول المبكر",
-cta:"انضم 🚀",
-disc:"التداول ينطوي على مخاطر"
-},
-es:{dir:"ltr",title:"Trading automático a tu manera",
-sub:"Opera con bots o copia traders confiables",
-trust:"Tu dinero permanece en tu cuenta",
-how:"Cómo funciona",
-h1t:"Elige modo",h1d:"Safe, Smart o Boost",
-h2t:"Elige trading",h2d:"Bot o copia total",
-h3t:"Automático",h3d:"Sin acciones manuales",
-modes:"Modos de estrategia",
-safe:"Riesgo bajo",
-smart:"Equilibrado",
-boost:"Riesgo alto",
-wait:"Acceso temprano",
-cta:"Únete 🚀",
-disc:"El trading implica riesgo"
-},
-de:{dir:"ltr",title:"Automatisches Trading, dein Weg",
-sub:"Handle mit Bots oder kopiere erfahrene Trader",
-trust:"Dein Geld bleibt in deinem Konto",
-how:"So funktioniert es",
-h1t:"Modus wählen",h1d:"Safe, Smart oder Boost",
-h2t:"Trading wählen",h2d:"Bot oder vollständiges Kopieren",
-h3t:"Vollautomatisch",h3d:"Keine manuellen Aktionen",
-modes:"Strategiemodi",
-safe:"Niedriges Risiko",
-smart:"Ausgeglichen",
-boost:"Hohes Risiko",
-wait:"Früher Zugang",
-cta:"Beitreten 🚀",
-disc:"Trading ist mit Risiken verbunden"
-}
-};
+    function setMsg(text, ok=true){
+      msgEl.innerHTML = `<span class="${ok ? 'ok' : 'err'}">${text}</span>`;
+    }
+    function log(text){
+      logEl.textContent += (logEl.textContent ? "\n" : "") + text;
+    }
 
-function setLang(l){
-const t=T[l];
-document.documentElement.dir=t.dir;
-for(let k in t){
-if(document.getElementById(k))document.getElementById(k).innerText=t[k];
-}
-document.querySelectorAll(".langWrap button").forEach(b=>b.classList.remove("active"));
-document.getElementById(l).classList.add("active");
-localStorage.setItem("lang",l);
-}
-setLang(localStorage.getItem("lang")||"en");
-</script>
+    async function checkConnection(){
+      try{
+        // یه تست سبک
+        const { data, error } = await supabase.auth.getSession();
+        if(error) throw error;
+        connEl.textContent = "OK ✅";
+        connEl.className = "pill ok";
+        return data?.session || null;
+      }catch(e){
+        connEl.textContent = "ERROR ❌";
+        connEl.className = "pill err";
+        setMsg("اتصال به Supabase مشکل دارد. URL/KEY را چک کن.", false);
+        console.error(e);
+        return null;
+      }
+    }
+
+    async function render(){
+      const { data } = await supabase.auth.getSession();
+      const session = data?.session;
+
+      if(session?.user){
+        authBox.style.display = "none";
+        profileBox.style.display = "block";
+        userLine.textContent = session.user.email || session.user.id;
+      }else{
+        profileBox.style.display = "none";
+        authBox.style.display = "block";
+      }
+    }
+
+    // Buttons
+    document.getElementById("btnSignup").addEventListener("click", async () => {
+      const email = emailEl.value.trim();
+      const password = passEl.value;
+
+      if(!email || !password) return setMsg("ایمیل و رمز را وارد کن.", false);
+
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if(error) return setMsg("ثبت‌نام خطا: " + error.message, false);
+
+      setMsg("ثبت‌نام انجام شد. اگر Confirm ایمیل فعال باشد باید ایمیل را تأیید کنی.");
+      console.log(data);
+      await render();
+    });
+
+    document.getElementById("btnLogin").addEventListener("click", async () => {
+      const email = emailEl.value.trim();
+      const password = passEl.value;
+
+      if(!email || !password) return setMsg("ایمیل و رمز را وارد کن.", false);
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if(error) return setMsg("ورود خطا: " + error.message, false);
+
+      setMsg("ورود موفق ✅");
+      console.log(data);
+      await render();
+    });
+
+    document.getElementById("btnGoogle").addEventListener("click", async () => {
+      // ⚠️ فقط وقتی کار می‌کند که Provider گوگل در Supabase فعال شده باشد
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: window.location.href
+        }
+      });
+      if(error) return setMsg("گوگل لاگین خطا: " + error.message, false);
+      console.log(data);
+    });
+
+    document.getElementById("btnLogout").addEventListener("click", async () => {
+      const { error } = await supabase.auth.signOut();
+      if(error) return log("SignOut error: " + error.message);
+      log("Signed out ✅");
+      await render();
+    });
+
+    document.getElementById("btnRefresh").addEventListener("click", async () => {
+      log("Refreshing session...");
+      await render();
+    });
+
+    // Auth state changes
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      log(`Auth event: ${event}`);
+      if(session?.user) log(`User: ${session.user.email || session.user.id}`);
+      await render();
+    });
+
+    // Init
+    await checkConnection();
+    await render();
+  </script>
 </body>
 </html>
