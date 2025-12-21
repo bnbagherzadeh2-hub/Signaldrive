@@ -1,106 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>SignalDrive | ورود</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SignalDrive | Login</title>
 
-  <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    body {
-      font-family: sans-serif;
-      background: #0f172a;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .box {
-      background: #020617;
-      padding: 30px;
-      width: 320px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #000;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 14px;
-    }
-    input {
-      background: #020617;
-      border: 1px solid #334155;
-      color: white;
-    }
-    button {
-      background: #22c55e;
-      color: black;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button:hover {
-      opacity: 0.9;
-    }
-    .error {
-      color: #f87171;
-      margin-top: 10px;
-      font-size: 13px;
-    }
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0b1220;color:#fff;font-family:system-ui}
+    .card{width:min(420px,92vw);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px}
+    input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.2);color:#fff;margin:8px 0}
+    button{width:100%;padding:12px;border-radius:10px;border:none;cursor:pointer;margin-top:10px;font-weight:700}
+    .ok{background:#22c55e;color:#07110a}
+    .muted{background:rgba(255,255,255,.12);color:#fff}
+    .msg{margin-top:10px;font-size:14px;white-space:pre-wrap;opacity:.9}
   </style>
 </head>
 <body>
+  <div class="card">
+    <h2 style="margin:0 0 10px">ورود / ثبت‌نام</h2>
+    <div id="status" class="msg">وضعیت: آماده</div>
 
-  <div class="box">
-    <h2>ورود / ثبت‌نام</h2>
+    <input id="email" type="email" placeholder="ایمیل" autocomplete="email" />
+    <input id="password" type="password" placeholder="رمز عبور" autocomplete="current-password" />
 
-    <input id="email" type="email" placeholder="ایمیل">
-    <input id="password" type="password" placeholder="پسورد">
+    <button id="btnLogin" class="ok" type="button">ورود</button>
+    <button id="btnSignup" class="muted" type="button">ثبت‌نام</button>
 
-    <button onclick="login()">ورود / ثبت‌نام</button>
-
-    <div id="error" class="error"></div>
+    <div id="msg" class="msg"></div>
   </div>
 
   <script>
-    const supabaseUrl = "https://YOUR_PROJECT_ID.supabase.co";
-    const supabaseKey = "YOUR_PUBLIC_ANON_KEY";
+    // ✅ این دو تا رو از Supabase -> Settings -> API بردار و جایگزین کن
+    const SUPABASE_URL = "PASTE_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY";
 
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const statusEl = document.getElementById("status");
+    const msgEl = document.getElementById("msg");
+    const show = (t) => (msgEl.textContent = t || "");
+    const setStatus = (t) => (statusEl.textContent = "وضعیت: " + t);
 
-    async function login() {
-      const email = document.getElementById("email").value;
+    // اگر جایگزین نکرده باشی، همینجا معلوم میشه
+    if (SUPABASE_URL.includes("PASTE_") || SUPABASE_ANON_KEY.includes("PASTE_")) {
+      setStatus("URL/KEY هنوز جایگزین نشده ❌");
+      show("برو داخل index.html و دو مقدار SUPABASE_URL و SUPABASE_ANON_KEY رو با مقدار واقعی جایگزین کن.");
+    }
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function goDashboard() {
+      // ریدایرکت قطعی
+      window.location.assign("/dashboard.html");
+    }
+
+    document.getElementById("btnLogin").onclick = async () => {
+      show("در حال ورود...");
+      const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
-      const errorDiv = document.getElementById("error");
-      errorDiv.innerText = "";
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      if (!email || !password) return show("ایمیل و پسورد رو وارد کن.");
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
       if (error) {
-        // اگر کاربر وجود نداشت → ثبت‌نام کن
-        const signup = await supabase.auth.signUp({
-          email,
-          password,
-        });
-
-        if (signup.error) {
-          errorDiv.innerText = signup.error.message;
-        } else {
-          window.location.href = "dashboard.html";
-        }
-      } else {
-        window.location.href = "dashboard.html";
+        show("❌ " + error.message);
+        return;
       }
-    }
-  </script>
 
+      show("✅ ورود موفق! انتقال به داشبورد...");
+      await goDashboard();
+    };
+
+    document.getElementById("btnSignup").onclick = async () => {
+      show("در حال ثبت‌نام...");
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) return show("ایمیل و پسورد رو وارد کن.");
+
+      const { data, error } = await supabaseClient.auth.signUp({ email, password });
+
+      if (error) return show("❌ " + error.message);
+
+      show("✅ ثبت‌نام انجام شد. حالا دکمه «ورود» رو بزن.");
+    };
+  </script>
 </body>
 </html>
