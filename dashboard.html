@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SignalDrive | داشبورد</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body{background:linear-gradient(135deg,#020617,#0f172a);font-family:sans-serif;color:#fff;margin:0;padding:24px}
+    .card{max-width:700px;margin:0 auto;background:#020617cc;border-radius:16px;padding:20px;box-shadow:0 0 40px rgba(0,0,0,.6)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    button{padding:12px 14px;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+    .logout{background:#ef4444;color:#fff}
+    .home{background:#22c55e;color:#0b1220}
+    .muted{opacity:.8}
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="row">
+    <h2 style="margin:0">صفحه اصلی (Dashboard)</h2>
+    <div class="row">
+      <button class="home" onclick="alert('اینجا بعداً منوی اصلی سایتت میاد ✅')">منوی اصلی</button>
+      <button class="logout" onclick="logout()">خروج</button>
+    </div>
+  </div>
+
+  <p class="muted" id="info">در حال بررسی ورود...</p>
+
+  <hr style="opacity:.2">
+
+  <h3>قدم بعدی</h3>
+  <p class="muted">
+    اینجا از این به بعد بخش‌های اصلی سایتتو می‌سازیم: پروفایل، آپلود فایل، سیگنال‌ها، …
+  </p>
+</div>
+
+<script>
+  const SUPABASE_URL = "https://idulsrbmpbyfuhnoezrx.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC";
+  const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function requireAuth(){
+    const { data } = await supabase.auth.getSession();
+    if (!data?.session) {
+      // اگر لاگین نیست برش گردون صفحه ورود
+      window.location.href = "/index.html";
+      return;
+    }
+    const email = data.session.user.email;
+    document.getElementById("info").textContent = "✅ وارد شدی: " + email;
+  }
+
+  async function logout(){
+    await supabase.auth.signOut();
+    window.location.href = "/index.html";
+  }
+
+  requireAuth();
+</script>
+
+</body>
+</html>
