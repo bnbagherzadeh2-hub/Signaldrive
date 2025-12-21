@@ -1,53 +1,133 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dashboard</title>
+  <meta charset="UTF-8" />
+  <title>ورود / ثبت‌نام</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
-    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0b1220;color:#fff;font-family:system-ui}
-    .box{width:min(520px,92vw);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px}
-    button{padding:12px 14px;border-radius:10px;border:none;cursor:pointer;background:#ef4444;color:#fff;font-weight:700}
-    .msg{margin-top:10px;opacity:.9;white-space:pre-wrap}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0f172a;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e5e7eb;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 400px;
+      background: #020617;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.6);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+      background: #020617;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .login {
+      background: #22c55e;
+      color: #052e16;
+    }
+
+    .signup {
+      background: #1e293b;
+      color: #e5e7eb;
+    }
+
+    .status {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #f87171;
+    }
   </style>
 </head>
 <body>
+
   <div class="box">
-    <h2 style="margin:0 0 10px">داشبورد</h2>
-    <div id="info" class="msg">در حال بررسی سشن...</div>
-    <div style="height:14px"></div>
-    <button id="logout" type="button">خروج</button>
+    <h2>ورود / ثبت‌نام</h2>
+
+    <div id="status" class="status"></div>
+
+    <input id="email" type="email" placeholder="ایمیل">
+    <input id="password" type="password" placeholder="رمز عبور">
+
+    <button class="login" onclick="login()">ورود</button>
+    <button class="signup" onclick="signup()">ثبت‌نام</button>
   </div>
 
   <script>
-    const SUPABASE_URL = "PASTE_SUPABASE_URL";
-    const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY";
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = "https://idulsrbmpbyfuhnoezrx.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC";
 
-    const info = document.getElementById("info");
+    const supabase = supabaseJs.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
 
-    (async () => {
-      const { data: { session }, error } = await supabaseClient.auth.getSession();
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
 
       if (error) {
-        info.textContent = "❌ خطا: " + error.message;
-        return;
+        document.getElementById("status").innerText = error.message;
+      } else {
+        document.getElementById("status").style.color = "#22c55e";
+        document.getElementById("status").innerText = "✅ وارد شدی";
       }
+    }
 
-      if (!session) {
-        info.textContent = "لاگین نیستی ❌ برمی‌گردم صفحه ورود...";
-        setTimeout(() => window.location.assign("/"), 900);
-        return;
+    async function signup() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const { error } = await supabase.auth.signUp({
+        email,
+        password
+      });
+
+      if (error) {
+        document.getElementById("status").innerText = error.message;
+      } else {
+        document.getElementById("status").style.color = "#22c55e";
+        document.getElementById("status").innerText =
+          "✅ ثبت‌نام انجام شد — ایمیل رو چک کن";
       }
-
-      info.textContent = "✅ خوش اومدی: " + (session.user.email || "User");
-    })();
-
-    document.getElementById("logout").onclick = async () => {
-      await supabaseClient.auth.signOut();
-      window.location.assign("/");
-    };
+    }
   </script>
+
 </body>
 </html>
