@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0b1220;color:#fff;font-family:system-ui}
+    .box{width:min(520px,92vw);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px}
+    button{padding:12px 14px;border-radius:10px;border:none;cursor:pointer;background:#ef4444;color:#fff;font-weight:700}
+    .msg{margin-top:10px;opacity:.9;white-space:pre-wrap}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2 style="margin:0 0 10px">داشبورد</h2>
+    <div id="info" class="msg">در حال بررسی سشن...</div>
+    <div style="height:14px"></div>
+    <button id="logout" type="button">خروج</button>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "PASTE_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const info = document.getElementById("info");
+
+    (async () => {
+      const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+      if (error) {
+        info.textContent = "❌ خطا: " + error.message;
+        return;
+      }
+
+      if (!session) {
+        info.textContent = "لاگین نیستی ❌ برمی‌گردم صفحه ورود...";
+        setTimeout(() => window.location.assign("/"), 900);
+        return;
+      }
+
+      info.textContent = "✅ خوش اومدی: " + (session.user.email || "User");
+    })();
+
+    document.getElementById("logout").onclick = async () => {
+      await supabaseClient.auth.signOut();
+      window.location.assign("/");
+    };
+  </script>
+</body>
+</html>
