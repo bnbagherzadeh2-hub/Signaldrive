@@ -2,132 +2,116 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>ورود / ثبت‌نام</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SignalDrive | ورود</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
-      margin: 0;
-      min-height: 100vh;
-      background: #0f172a;
+      background: linear-gradient(135deg, #0f172a, #020617);
       font-family: sans-serif;
+      color: white;
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: #e5e7eb;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-
     .box {
+      background: #020617cc;
+      padding: 24px;
+      border-radius: 16px;
       width: 100%;
       max-width: 400px;
-      background: #020617;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.6);
+      box-shadow: 0 0 40px rgba(0,0,0,.6);
     }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input {
+    input, button {
       width: 100%;
       padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-      background: #020617;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+    input {
+      background: #0f172a;
       color: white;
     }
-
     button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
+      background: #22c55e;
       font-weight: bold;
       cursor: pointer;
-      margin-bottom: 10px;
     }
-
-    .login {
-      background: #22c55e;
-      color: #052e16;
+    .secondary {
+      background: #334155;
     }
-
-    .signup {
-      background: #1e293b;
-      color: #e5e7eb;
-    }
-
     .status {
-      text-align: center;
       margin-bottom: 10px;
-      color: #f87171;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <h2>ورود / ثبت‌نام</h2>
+<div class="box">
+  <h2>ورود / ثبت‌نام</h2>
+  <div id="status" class="status"></div>
 
-    <div id="status" class="status"></div>
+  <input id="email" type="email" placeholder="ایمیل" />
+  <input id="password" type="password" placeholder="رمز عبور" />
 
-    <input id="email" type="email" placeholder="ایمیل">
-    <input id="password" type="password" placeholder="رمز عبور">
+  <button onclick="login()">ورود</button>
+  <button class="secondary" onclick="signup()">ثبت‌نام</button>
+</div>
 
-    <button class="login" onclick="login()">ورود</button>
-    <button class="signup" onclick="signup()">ثبت‌نام</button>
-  </div>
+<script>
+  const SUPABASE_URL = "https://idulsrbmpbyfuhnoezrx.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC";
 
-  <script>
-    const SUPABASE_URL = "https://idulsrbmpbyfuhnoezrx.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_31UmjdLzYTcZkgLejI_mrg_Qb4rdpNC";
+  const supabase = supabaseJs.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-    const supabase = supabaseJs.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+  function setStatus(msg, ok=true) {
+    const el = document.getElementById("status");
+    el.innerText = msg;
+    el.style.color = ok ? "#22c55e" : "#ef4444";
+  }
 
-    async function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-      if (error) {
-        document.getElementById("status").innerText = error.message;
-      } else {
-        document.getElementById("status").style.color = "#22c55e";
-        document.getElementById("status").innerText = "✅ وارد شدی";
-      }
+    if (error) {
+      setStatus(error.message, false);
+    } else {
+      setStatus("✅ ورود موفق");
     }
+  }
 
-    async function signup() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  async function signup() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-      const { error } = await supabase.auth.signUp({
-        email,
-        password
-      });
+    const { error } = await supabase.auth.signUp({
+      email,
+      password
+    });
 
-      if (error) {
-        document.getElementById("status").innerText = error.message;
-      } else {
-        document.getElementById("status").style.color = "#22c55e";
-        document.getElementById("status").innerText =
-          "✅ ثبت‌نام انجام شد — ایمیل رو چک کن";
-      }
+    if (error) {
+      setStatus(error.message, false);
+    } else {
+      setStatus("📩 ایمیل تأیید ارسال شد");
     }
-  </script>
+  }
+</script>
 
 </body>
 </html>
